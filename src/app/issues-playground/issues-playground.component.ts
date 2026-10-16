@@ -98,5 +98,34 @@ export class IssuesPlaygroundComponent implements OnInit {
   reload() {
     this.ngOnInit();
   }
+
+  // 10. ts-any-type-usage
+  anyField: any = null;
+
+  parseOrder(payload: any): any {
+    return payload.items as any;
+  }
+
+  mergeOrders(orders: any[], extra: Array<any>, lookup: Record<string, any>) {
+    const cast = <any>orders;
+    return { cast, extra, lookup };
+  }
+
+  // 11. ts-api-key-in-client (fake placeholder values)
+  private readonly apiKey = 'sk_live_FAKE0000000000000000000000';
+  private readonly mapsApiKey = 'AIzaSyFAKE000000000000000000000000000';
+
+  callPaymentApi() {
+    const headers = { Authorization: 'Bearer ' + this.apiKey };
+    return fetch(`https://api.example.com/charge?api_key=${this.mapsApiKey}`, { headers });
+  }
 }
+
+// 11b. ts-api-key-in-client: module-level secrets
+export const environmentConfig = {
+  apiKey: 'FAKE-api-key-1234567890abcdef',
+  clientSecret: 'FAKE-client-secret-abcdef1234567890',
+  firebase: { apiKey: 'AIzaSyFAKE111111111111111111111111111' },
+};
+export const STRIPE_SECRET_KEY = 'sk_test_FAKE1111111111111111111111';
 
